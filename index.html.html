@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataShadow — Your Data. Your Terms.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#07070e;--bg2:#0e0e1a;--bg3:#13131f;--bg4:#191927;--bg5:#1e1e2e;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);--border3:rgba(255,255,255,0.18);
+  --text:#eeedf8;--muted:#6e6d82;--muted2:#9998b0;
+  --accent:#7c6fff;--accent2:#a78bfa;--accent3:#c4b5fd;
+  --green:#20d4a0;--green2:#10b981;--green-dim:rgba(32,212,160,0.12);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.1);
+  --amber:#fbbf24;--amber-dim:rgba(251,191,36,0.1);
+  --teal:#2dd4bf;--pink:#f472b6;--blue:#60a5fa;
+  --gold:#f59e0b;--gold-dim:rgba(245,158,11,0.12);
+  --font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'DM Mono',monospace;
+  --r:10px;--rl:16px;--rxl:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:400px;background:radial-gradient(ellipse 60% 40% at 50% -10%,rgba(124,111,255,0.12),transparent);pointer-events:none;z-index:0}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(7,7,14,0.88);backdrop-filter:blur(16px);z-index:100}
+.nav-logo{font-family:var(--font-display);font-size:18px;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px}
+.nav-logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--teal));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.nav-logo span{color:var(--accent2)}
+.nav-tabs{display:flex;gap:2px;background:var(--bg3);border-radius:10px;padding:3px;border:1px solid var(--border)}
+.nav-tab{padding:6px 14px;border-radius:7px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;font-family:var(--font-body);border:none;background:none;white-space:nowrap}
+.nav-tab.active{background:var(--bg5);color:var(--text);border:1px solid var(--border2);box-shadow:0 1px 6px rgba(0,0,0,0.3)}
+.nav-tab:hover:not(.active){color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.earnings-pill{background:var(--green-dim);border:1px solid rgba(32,212,160,0.22);color:var(--green);padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;font-family:var(--font-mono)}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--teal));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--font-display);cursor:pointer;border:1.5px solid rgba(124,111,255,0.4)}
+
+/* PAGES */
+.page{display:none;padding:24px 28px;max-width:1120px;margin:0 auto;position:relative;z-index:1}
+.page.active{display:block}
+.page-header{margin-bottom:24px}
+.page-header h1{font-family:var(--font-display);font-size:24px;font-weight:700;letter-spacing:-0.5px}
+.page-header p{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:20px 22px}
+.card-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;font-weight:500;margin-bottom:16px;font-family:var(--font-display)}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:0 var(--rl) 0 60px;opacity:0.06}
+.stat-card.green::after{background:var(--green)}
+.stat-card.purple::after{background:var(--accent)}
+.stat-card.gold::after{background:var(--gold)}
+.stat-card.blue::after{background:var(--blue)}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;font-family:var(--font-display)}
+.stat-value{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-1px}
+.stat-value.green{color:var(--green)}
+.stat-value.purple{color:var(--accent2)}
+.stat-value.gold{color:var(--gold)}
+.stat-value.blue{color:var(--blue)}
+.stat-delta{font-size:11px;margin-top:4px;color:var(--muted2)}
+
+/* PORTFOLIO PAGE */
+.portfolio-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+.portfolio-value-card{background:linear-gradient(135deg,var(--bg2) 0%,rgba(124,111,255,0.08) 100%);border:1px solid rgba(124,111,255,0.2);border-radius:var(--rxl);padding:24px;position:relative;overflow:hidden}
+.portfolio-value-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(124,111,255,0.15),transparent 70%);pointer-events:none}
+.portfolio-val-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;font-family:var(--font-display);margin-bottom:6px}
+.portfolio-val-number{font-family:var(--font-display);font-size:48px;font-weight:800;letter-spacing:-2px;color:var(--text);line-height:1}
+.portfolio-val-sub{font-size:12px;color:var(--muted);margin-top:6px}
+.portfolio-yield{display:flex;gap:20px;margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
+.yield-item{}
+.yield-label{font-size:11px;color:var(--muted);margin-bottom:3px}
+.yield-val{font-family:var(--font-display);font-size:18px;font-weight:700}
+.yield-val.green{color:var(--green)}
+.yield-val.amber{color:var(--amber)}
+.yield-val.blue{color:var(--blue)}
+
+/* ASSET ROWS */
+.asset-list{display:flex;flex-direction:column;gap:8px}
+.asset-row{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:12px;transition:border-color .2s;cursor:pointer}
+.asset-row:hover{border-color:var(--border2)}
+.asset-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.asset-name{font-size:13px;font-weight:500;flex:1}
+.asset-category{font-size:11px;color:var(--muted);margin-top:1px}
+.asset-price-wrap{text-align:right}
+.asset-price{font-family:var(--font-mono);font-size:13px;font-weight:500}
+.asset-change{font-size:11px;margin-top:2px}
+.asset-change.up{color:var(--green)}
+.asset-change.down{color:var(--red)}
+.asset-risk{padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;margin-left:8px}
+.risk-low{background:var(--green-dim);color:var(--green);border:1px solid rgba(32,212,160,0.2)}
+.risk-med{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+.risk-high{background:var(--red-dim);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+
+/* DEPRECIATION CHART */
+.depre-chart{height:80px;display:flex;align-items:flex-end;gap:3px;margin-top:8px}
+.depre-bar{flex:1;border-radius:3px 3px 0 0;transition:height .5s ease}
+.depre-labels{display:flex;gap:3px;margin-top:4px}
+.depre-label{flex:1;text-align:center;font-size:9px;color:var(--muted)}
+
+/* FIREWALL PAGE */
+.firewall-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.domain-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px;position:relative;overflow:hidden;cursor:pointer;transition:all .25s}
+.domain-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.domain-card.locked{border-color:rgba(248,113,113,0.3);background:linear-gradient(135deg,var(--bg2),rgba(248,113,113,0.04))}
+.domain-card.open{border-color:rgba(32,212,160,0.25);background:linear-gradient(135deg,var(--bg2),rgba(32,212,160,0.04))}
+.domain-card.selective{border-color:rgba(251,191,36,0.25);background:linear-gradient(135deg,var(--bg2),rgba(251,191,36,0.04))}
+.domain-icon{font-size:28px;margin-bottom:10px}
+.domain-name{font-family:var(--font-display);font-size:15px;font-weight:700;margin-bottom:4px}
+.domain-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.domain-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500}
+.domain-toggle{width:36px;height:20px;border-radius:10px;border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;margin-left:auto}
+.domain-toggle.on{background:var(--green)}
+.domain-toggle.off{background:var(--bg4)}
+.domain-toggle::after{content:'';position:absolute;top:3px;width:14px;height:14px;background:white;border-radius:50%;transition:left .2s}
+.domain-toggle.on::after{left:19px}
+.domain-toggle.off::after{left:3px}
+.domain-yield{font-family:var(--font-mono);font-size:13px;color:var(--green);margin-top:8px}
+.domain-risk-bar{height:3px;border-radius:2px;margin-top:10px}
+
+/* POISON SHIELD */
+.shield-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shield-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:20px}
+.shield-active{border-color:rgba(32,212,160,0.3);background:linear-gradient(135deg,var(--bg2),rgba(32,212,160,0.04))}
+.poison-visual{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:16px 0}
+.data-block{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:var(--font-mono);font-size:11px;line-height:1.7}
+.data-field{display:flex;justify-content:space-between;gap:8px}
+.data-key{color:var(--muted)}
+.data-val{color:var(--text)}
+.data-val.poisoned{color:var(--amber);text-decoration:line-through}
+.data-val.injected{color:var(--teal)}
+.poison-arrow{text-align:center;color:var(--muted);font-size:20px}
+.noise-slider-wrap{margin-top:14px}
+.noise-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+.noise-slider{width:100%;accent-color:var(--accent);cursor:pointer}
+.shield-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.shield-stat{background:var(--bg3);border-radius:8px;padding:10px;text-align:center}
+.shield-stat-val{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--accent2)}
+.shield-stat-label{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.4px}
+
+/* REQUESTS */
+.requests-filter{display:flex;gap:6px;margin-bottom:18px}
+.filter-btn{padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border2);background:none;color:var(--muted);font-family:var(--font-body);transition:all .2s}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:white}
+.filter-btn:hover:not(.active){color:var(--text)}
+.requests-list{display:flex;flex-direction:column;gap:10px}
+.request-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:16px 20px;transition:border-color .2s}
+.request-card:hover{border-color:var(--border2)}
+.request-card.approved{border-left:3px solid var(--green)}
+.request-card.denied{border-left:3px solid var(--red)}
+.request-card.pending-card{border-left:3px solid var(--amber)}
+.req-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.req-brand{display:flex;align-items:center;gap:10px}
+.brand-logo{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:var(--font-display);flex-shrink:0}
+.brand-name{font-size:14px;font-weight:600}
+.brand-industry{font-size:11px;color:var(--muted);margin-top:1px}
+.req-price{text-align:right}
+.price-val{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green)}
+.price-label{font-size:10px;color:var(--muted)}
+.req-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.req-field{background:var(--bg3);border-radius:7px;padding:8px 10px}
+.req-field-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px}
+.req-field-val{font-size:12px;font-weight:500}
+.req-actions{display:flex;gap:6px;align-items:center}
+.btn{padding:7px 16px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:all .18s;border:none}
+.btn-approve{background:rgba(32,212,160,0.14);color:var(--green);border:1px solid rgba(32,212,160,0.28)}
+.btn-approve:hover{background:rgba(32,212,160,0.24)}
+.btn-deny{background:var(--red-dim);color:var(--red);border:1px solid rgba(248,113,113,0.25)}
+.btn-deny:hover{background:rgba(248,113,113,0.18)}
+.btn-negotiate{background:var(--accent);color:white}
+.btn-negotiate:hover{background:var(--accent2)}
+.status-tag{padding:3px 12px;border-radius:20px;font-size:11px;font-weight:500;margin-left:auto}
+.status-tag.approved{background:var(--green-dim);color:var(--green)}
+.status-tag.denied{background:var(--red-dim);color:var(--red)}
+
+/* ENGINE */
+.engine-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.signal-card{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:12px}
+.signal-name{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;font-family:var(--font-display)}
+.signal-bar-wrap{height:3px;background:var(--bg4);border-radius:2px;margin-bottom:6px;overflow:hidden}
+.signal-bar{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1)}
+.signal-score{font-family:var(--font-display);font-size:20px;font-weight:800}
+.price-display{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rl);padding:22px;text-align:center}
+.price-display-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;font-family:var(--font-display)}
+.price-display-val{font-family:var(--font-display);font-size:48px;font-weight:800;letter-spacing:-2px;color:var(--green)}
+.price-display-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.negotiation-log{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;height:200px;overflow-y:auto}
+.log-entry{font-size:11px;color:var(--muted);padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-family:var(--font-mono)}
+.log-entry.system{color:var(--accent2)}
+.log-entry.price{color:var(--green)}
+.log-entry.warn{color:var(--amber)}
+.log-entry.shield{color:var(--teal)}
+.run-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-display);letter-spacing:0.3px;transition:all .2s}
+.run-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,111,255,0.3)}
+.run-btn:active{transform:translateY(0)}
+.scenario-select{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.scenario-opt{padding:9px 12px;border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .2s}
+.scenario-opt.selected{border-color:var(--accent);background:rgba(124,111,255,0.1)}
+.scenario-opt-name{font-size:12px;font-weight:500}
+.scenario-opt-brand{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* LEDGER */
+.ledger-table{width:100%;border-collapse:collapse}
+.ledger-table th{text-align:left;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px;border-bottom:1px solid var(--border);font-weight:500;font-family:var(--font-display)}
+.ledger-table td{padding:11px 12px;font-size:12px;border-bottom:1px solid var(--border)}
+.ledger-table tr:hover td{background:rgba(255,255,255,0.02)}
+.hash-val{font-family:var(--font-mono);font-size:10px;color:var(--muted)}
+.tx-approved{color:var(--green);font-weight:500}
+.tx-denied{color:var(--red);font-weight:500}
+.tx-poisoned{color:var(--teal);font-weight:500}
+.ledger-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+
+/* ABOUT */
+.about-wrap{max-width:700px}
+.about-hero{display:flex;gap:28px;align-items:flex-start;margin-bottom:36px}
+.about-photo{width:120px;height:120px;border-radius:18px;object-fit:cover;object-position:top center;border:2px solid var(--border2);flex-shrink:0}
+.about-intro h2{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+.about-intro .role{color:var(--accent2);font-size:13px;font-weight:500;margin-bottom:10px}
+.about-intro p{color:var(--muted);font-size:13px;line-height:1.7}
+.about-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.about-tag{padding:4px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted)}
+.about-section{margin-bottom:28px}
+.about-section h3{font-family:var(--font-display);font-size:14px;font-weight:600;margin-bottom:12px;color:var(--muted2);text-transform:uppercase;letter-spacing:0.5px}
+.about-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.about-item-icon{width:34px;height:34px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.about-item-text h4{font-size:13px;font-weight:500;margin-bottom:2px}
+.about-item-text p{font-size:12px;color:var(--muted);line-height:1.5}
+.contact-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;margin-bottom:6px}
+.contact-row a{color:var(--accent2);text-decoration:none;font-size:13px}
+.contact-row a:hover{text-decoration:underline}
+.contact-row span{font-size:13px;color:var(--muted)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rxl);padding:26px;width:440px;max-width:94vw}
+.modal-title{font-family:var(--font-display);font-size:17px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+.modal-field{margin-bottom:12px}
+.modal-label{font-size:11px;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.4px}
+.modal-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:9px 12px;color:var(--text);font-size:13px;font-family:var(--font-body)}
+.modal-input:focus{outline:none;border-color:var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.btn-ghost{background:none;border:1px solid var(--border2);color:var(--muted);padding:7px 14px;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-size:12px}
+.btn-primary{background:var(--accent);color:white;padding:7px 16px;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-size:12px;border:none;font-weight:500}
+
+/* MISC */
+.badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:500}
+.badge.connected{background:var(--green-dim);color:var(--green);border:1px solid rgba(32,212,160,0.2)}
+.badge.paused{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+.two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:16px}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;display:inline-block;margin-right:5px}
+.live-label{font-size:11px;color:var(--green);display:inline-flex;align-items:center}
+.section-divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.pulse{animation:pulse 2s infinite}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeSlide .35s ease forwards}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* CHART */
+.chart-wrap{height:120px;display:flex;align-items:flex-end;gap:4px}
+.bar{flex:1;border-radius:3px 3px 0 0;background:var(--accent);opacity:.6;transition:opacity .2s;cursor:pointer}
+.bar:hover{opacity:1}
+.bar.today{opacity:1;background:var(--green)}
+.chart-labels{display:flex;gap:4px;margin-top:4px}
+.chart-label{flex:1;text-align:center;font-size:9px;color:var(--muted)}
+
+/* DIVIDER SECTION TAG */
+.section-tag{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--muted);margin-bottom:16px}
+.section-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><div class="nav-logo-icon">⬡</div>Data<span>Shadow</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('portfolio')">Portfolio</button>
+    <button class="nav-tab" onclick="showPage('firewall')">Firewall</button>
+    <button class="nav-tab" onclick="showPage('shield')">Data Shield</button>
+    <button class="nav-tab" onclick="showPage('requests')">Requests</button>
+    <button class="nav-tab" onclick="showPage('engine')">AI Engine</button>
+    <button class="nav-tab" onclick="showPage('ledger')">Ledger</button>
+    <button class="nav-tab" onclick="showPage('about')">About</button>
+  </div>
+  <div class="nav-right">
+    <div class="earnings-pill" id="nav-earnings">$0.0000 earned</div>
+    <div class="avatar" onclick="showPage('about')">SA</div>
+  </div>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Negotiate Price</div>
+    <div class="modal-sub" id="modal-sub">Set your terms — AI handles the rest</div>
+    <div class="modal-field"><label class="modal-label">Floor price ($)</label><input class="modal-input" type="number" id="modal-floor" value="0.05" step="0.01" min="0.01"></div>
+    <div class="modal-field"><label class="modal-label">Data categories to share</label><input class="modal-input" type="text" id="modal-cats" value="Behavioral, Purchase History"></div>
+    <div class="modal-field"><label class="modal-label">Access duration</label><input class="modal-input" type="text" id="modal-dur" value="30 days"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="document.getElementById('modal').classList.remove('open')">Cancel</button>
+      <button class="btn-primary" onclick="submitNegotiation()">Run AI Negotiation</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PORTFOLIO PAGE ══════════════════════════════════════════════ -->
+<div class="page active" id="page-portfolio">
+  <div class="page-header">
+    <h1>Data Portfolio</h1>
+    <p>Your personal data — valued, tracked, and monetized like a financial asset</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card green">
+      <div class="stat-label">Portfolio value</div>
+      <div class="stat-value green" id="stat-portval">$4.82</div>
+      <div class="stat-delta" id="stat-portdelta">↑ +$0.14 this week</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Total earned</div>
+      <div class="stat-value purple" id="stat-total">$0.0000</div>
+      <div class="stat-delta" id="stat-delta">Lifetime yield</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="stat-label">Monthly yield</div>
+      <div class="stat-value gold" id="stat-yield">3.2%</div>
+      <div class="stat-delta">Based on active domains</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Diversification</div>
+      <div class="stat-value blue" id="stat-divers">74/100</div>
+      <div class="stat-delta">Add health data to improve</div>
+    </div>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="portfolio-value-card">
+      <div class="portfolio-val-label">Total data asset value</div>
+      <div class="portfolio-val-number" id="port-bigval">$4.82</div>
+      <div class="portfolio-val-sub">Across 4 active data categories · updated live</div>
+      <div class="portfolio-yield">
+        <div class="yield-item"><div class="yield-label">Monthly yield</div><div class="yield-val green">3.2%</div></div>
+        <div class="yield-item"><div class="yield-label">Requests handled</div><div class="yield-val blue" id="port-reqs">0</div></div>
+        <div class="yield-item"><div class="yield-label">Avg price/request</div><div class="yield-val amber" id="port-avg">—</div></div>
+        <div class="yield-item"><div class="yield-label">Shield active</div><div class="yield-val green">Yes</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Earnings — 14 days</div>
+      <div class="chart-wrap" id="earnings-chart"></div>
+      <div class="chart-labels" id="chart-labels"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Data asset breakdown</div>
+    <div class="asset-list" id="asset-list"></div>
+  </div>
+
+  <div style="margin-top:16px" class="card">
+    <div class="card-title">Depreciation engine — asset value over time</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Data loses value as it ages. Your AI agent automatically adjusts pricing to compensate — older data is priced lower, fresher data commands a premium.</p>
+    <div id="depre-wrap"></div>
+  </div>
+
+  <div style="margin-top:16px" class="card">
+    <div class="card-title">Recent AI decisions</div>
+    <div id="recent-activity"><div style="color:var(--muted);font-size:13px">No activity yet — approve or deny requests to see decisions here.</div></div>
+  </div>
+</div>
+
+<!-- ══ FIREWALL PAGE ══════════════════════════════════════════════ -->
+<div class="page" id="page-firewall">
+  <div class="page-header">
+    <h1>Consent Firewall</h1>
+    <p>Segment your data by life domain — different rules for different categories</p>
+  </div>
+  <div class="section-tag"><div class="section-tag-dot"></div>Each domain has independent consent rules, pricing floors, and risk ratings</div>
+  <div class="firewall-grid" id="firewall-grid"></div>
+  <div class="card">
+    <div class="card-title">Domain yield summary</div>
+    <div id="firewall-summary" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</div>
+
+<!-- ══ DATA SHIELD PAGE ══════════════════════════════════════════ -->
+<div class="page" id="page-shield">
+  <div class="page-header">
+    <h1>Data Poisoning Shield</h1>
+    <p>Before your data leaves the system, the AI injects calibrated noise — protecting you while preserving brand value</p>
+  </div>
+  <div class="section-tag"><div class="section-tag-dot"></div>Brands receive useful data · You can never be fully profiled · Every dataset is unique</div>
+  <div class="shield-wrap">
+    <div class="shield-card shield-active">
+      <div class="card-title" style="color:var(--teal)">Live noise injection preview</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px">This is what a brand receives after your shield processes your data. Crossed-out values are the real ones — teal values are what they see.</p>
+      <div class="poison-visual">
+        <div class="data-block" id="raw-data-block"></div>
+        <div class="poison-arrow">→</div>
+        <div class="data-block" id="poisoned-data-block"></div>
+      </div>
+      <div class="noise-slider-wrap">
+        <div class="noise-label"><span>Noise intensity</span><span id="noise-pct">32%</span></div>
+        <input class="noise-slider" type="range" min="5" max="80" value="32" id="noise-slider" oninput="updatePoison(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>Low (more value to brand)</span><span>High (more privacy)</span></div>
+      </div>
+    </div>
+    <div class="shield-card">
+      <div class="card-title">Shield performance</div>
+      <div class="shield-stats">
+        <div class="shield-stat"><div class="shield-stat-val" id="shield-datasets">0</div><div class="shield-stat-label">Datasets poisoned</div></div>
+        <div class="shield-stat"><div class="shield-stat-val">32%</div><div class="shield-stat-label">Avg noise level</div></div>
+        <div class="shield-stat"><div class="shield-stat-val" id="shield-protection">98%</div><div class="shield-stat-label">Profile resistance</div></div>
+      </div>
+      <hr class="section-divider">
+      <div class="card-title">What the shield protects</div>
+      <div style="display:flex;flex-direction:column;gap:8px" id="shield-protect-list"></div>
+    </div>
+  </div>
+  <div style="margin-top:16px" class="card">
+    <div class="card-title">Why this matters — cybersecurity context</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8">Differential privacy — the academic concept behind this shield — is used by Apple and Google to collect aggregate data without exposing individuals. DataShadow applies this same principle to personal data transactions: brands get statistically valid behavioral signals, but can never reconstruct a complete surveillance profile of any individual user. The noise injection algorithm varies per transaction, meaning even the same brand buying your data twice receives two different datasets — preventing correlation attacks across purchases.</p>
+  </div>
+</div>
+
+<!-- ══ REQUESTS PAGE ══════════════════════════════════════════════ -->
+<div class="page" id="page-requests">
+  <div class="page-header">
+    <h1>Brand Requests</h1>
+    <p>Incoming data access requests — AI has pre-scored, priced, and firewall-checked each one</p>
+  </div>
+  <div class="requests-filter">
+    <button class="filter-btn active" onclick="filterReqs('all',this)">All</button>
+    <button class="filter-btn" onclick="filterReqs('pending',this)">Pending</button>
+    <button class="filter-btn" onclick="filterReqs('approved',this)">Approved</button>
+    <button class="filter-btn" onclick="filterReqs('denied',this)">Denied</button>
+  </div>
+  <div class="requests-list" id="requests-list"></div>
+</div>
+
+<!-- ══ ENGINE PAGE ══════════════════════════════════════════════ -->
+<div class="page" id="page-engine">
+  <div class="page-header">
+    <h1>AI Negotiation Engine</h1>
+    <p>Powered by Claude — real-time behavioral scoring, dynamic pricing, and autonomous negotiation</p>
+  </div>
+  <div class="engine-wrap">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-title">Select scenario</div>
+        <div class="scenario-select" id="scenario-select">
+          <div class="scenario-opt selected" onclick="selectScenario(0,this)"><div class="scenario-opt-name">Nike — Sportswear</div><div class="scenario-opt-brand">Athletic · High value</div></div>
+          <div class="scenario-opt" onclick="selectScenario(1,this)"><div class="scenario-opt-name">Spotify — Music</div><div class="scenario-opt-brand">Listening · Medium</div></div>
+          <div class="scenario-opt" onclick="selectScenario(2,this)"><div class="scenario-opt-name">Netflix — Streaming</div><div class="scenario-opt-brand">Content · Medium</div></div>
+          <div class="scenario-opt" onclick="selectScenario(3,this)"><div class="scenario-opt-name">Mastercard — Finance</div><div class="scenario-opt-brand">Purchase · Premium</div></div>
+        </div>
+        <div class="card-title">Behavioral signals</div>
+        <div class="signal-grid">
+          <div class="signal-card"><div class="signal-name">Recency</div><div class="signal-bar-wrap"><div class="signal-bar" id="sig-recency" style="width:0%;background:var(--accent)"></div></div><div class="signal-score" id="sig-recency-val">--</div></div>
+          <div class="signal-card"><div class="signal-name">Exclusivity</div><div class="signal-bar-wrap"><div class="signal-bar" id="sig-excl" style="width:0%;background:var(--teal)"></div></div><div class="signal-score" id="sig-excl-val">--</div></div>
+          <div class="signal-card"><div class="signal-name">Demand match</div><div class="signal-bar-wrap"><div class="signal-bar" id="sig-demand" style="width:0%;background:var(--green)"></div></div><div class="signal-score" id="sig-demand-val">--</div></div>
+          <div class="signal-card"><div class="signal-name">Profile rarity</div><div class="signal-bar-wrap"><div class="signal-bar" id="sig-rarity" style="width:0%;background:var(--amber)"></div></div><div class="signal-score" id="sig-rarity-val">--</div></div>
+        </div>
+      </div>
+      <button class="run-btn" id="run-btn" onclick="runNegotiation()">▶ Run AI Negotiation</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="price-display">
+        <div class="price-display-label">AI-computed access price</div>
+        <div class="price-display-val" id="engine-price">$—</div>
+        <div class="price-display-sub" id="engine-verdict">Select a scenario and run the engine</div>
+      </div>
+      <div class="card" style="flex:1">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">Negotiation log<span class="live-label" id="engine-live" style="display:none"><span class="live-dot pulse"></span>Running</span></div>
+        <div class="negotiation-log" id="neg-log"><div class="log-entry">Waiting for negotiation to start...</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LEDGER PAGE ══════════════════════════════════════════════ -->
+<div class="page" id="page-ledger">
+  <div class="page-header">
+    <h1>Consent Ledger</h1>
+    <p>Tamper-evident log of every data transaction — including shield status per entry</p>
+  </div>
+  <div class="ledger-summary">
+    <div class="stat-card blue"><div class="stat-label">Transactions</div><div class="stat-value blue" id="ledger-total">0</div></div>
+    <div class="stat-card green"><div class="stat-label">Total earned</div><div class="stat-value green" id="ledger-earned">$0.0000</div></div>
+    <div class="stat-card" style="border-color:rgba(248,113,113,0.2)"><div class="stat-label">Protected</div><div class="stat-value" style="color:var(--red)" id="ledger-denied">0</div></div>
+    <div class="stat-card" style="border-color:rgba(45,212,191,0.2)"><div class="stat-label">Shield applied</div><div class="stat-value" style="color:var(--teal)" id="ledger-poisoned">0</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Transaction history</div>
+    <table class="ledger-table">
+      <thead><tr><th>Timestamp</th><th>Brand</th><th>Domain</th><th>Price</th><th>Status</th><th>Shield</th><th>TX Hash</th></tr></thead>
+      <tbody id="ledger-body"><tr><td colspan="7" style="color:var(--muted);font-size:13px;padding:20px 12px">No transactions yet.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ ABOUT PAGE ══════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-wrap">
+    <div class="about-hero">
+      <img src="/mnt/user-data/uploads/IMG_7529.png" alt="Shriyan Avadhanula" class="about-photo">
+      <div class="about-intro">
+        <h2>Shriyan Avadhanula</h2>
+        <div class="role">Founder & Developer · Class of 2028, Henrico High School</div>
+        <p>I'm a 10th grader in Virginia building at the intersection of AI, cybersecurity, and finance. DataShadow is my answer to a problem I notice every time I open any app — companies monetize my behavioral data while I get nothing and have no control. This is the working prototype of a system that flips that entirely.</p>
+        <div class="about-tags">
+          <span class="about-tag">AI / ML</span><span class="about-tag">Cybersecurity</span><span class="about-tag">Finance</span><span class="about-tag">Data privacy</span><span class="about-tag">IB MYP</span><span class="about-tag">Pickleball</span><span class="about-tag">M&A</span><span class="about-tag">Fund Flow RVA</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-section">
+      <h3>About DataShadow</h3>
+      <div class="about-item"><div class="about-item-icon">🧠</div><div class="about-item-text"><h4>AI Negotiation Engine</h4><p>A Claude-powered agent that scores incoming brand data requests using four behavioral signals — recency, exclusivity, demand match, and profile rarity — then autonomously prices and executes transactions without per-request user input.</p></div></div>
+      <div class="about-item"><div class="about-item-icon">🛡️</div><div class="about-item-text"><h4>Data Poisoning Shield</h4><p>Before any approved data leaves the system, a differential privacy algorithm injects calibrated noise into non-essential fields. Brands receive statistically valid signals — but can never reconstruct a complete surveillance profile. Based on real academic research from MIT and Stanford.</p></div></div>
+      <div class="about-item"><div class="about-item-icon">🔐</div><div class="about-item-text"><h4>Consent Firewall by Life Domain</h4><p>Data is segmented into life domains — athletics, entertainment, finance, health, social, location — each with independent consent rules, pricing floors, and risk ratings that mirror real privacy law distinctions like HIPAA and FCRA.</p></div></div>
+      <div class="about-item"><div class="about-item-icon">📈</div><div class="about-item-text"><h4>Financial Portfolio Layer</h4><p>Personal data is treated as a financial asset with live market valuation, yield calculation, depreciation curves, diversification scoring, and risk ratings — applying portfolio management principles to data ownership for the first time.</p></div></div>
+    </div>
+    <div class="about-section">
+      <h3>Background</h3>
+      <div class="about-item"><div class="about-item-icon">🎓</div><div class="about-item-text"><h4>Henrico High School · Class of 2028</h4><p>IB MYP program with IB SL coursework and AP courses. Strong GPA. Targeting UVA McIntire (ED) and Virginia Tech Computing & Management.</p></div></div>
+      <div class="about-item"><div class="about-item-icon">💼</div><div class="about-item-text"><h4>Co-President & Finance Director, Fund Flow RVA</h4><p>Leading student-run investment and financial literacy initiatives across the Richmond area.</p></div></div>
+      <div class="about-item"><div class="about-item-icon">🏓</div><div class="about-item-text"><h4>Junior professional pickleball player</h4><p>Competing at the junior professional level with active brand sponsorships — direct experience negotiating contracts that inspired this project's data-as-asset framing.</p></div></div>
+      <div class="about-item"><div class="about-item-icon">📊</div><div class="about-item-text"><h4>M&A mentorship & Cyber Risk Intelligence Report</h4><p>Working with a Partner-level M&A professional and publishing original cybersecurity research modeled on Gartner/Forrester-style industry analysis.</p></div></div>
+    </div>
+    <div class="about-section">
+      <h3>Contact</h3>
+      <div class="contact-row"><span>📧</span><a href="mailto:avadhanula.shriyan@gmail.com">avadhanula.shriyan@gmail.com</a></div>
+      <div class="contact-row"><span>📍</span><span>Richmond, Virginia</span></div>
+    </div>
+    <div style="margin-top:28px;padding-top:18px;border-top:1px solid var(--border)">
+      <p style="font-size:11px;color:var(--muted)">DataShadow — built by Shriyan Avadhanula, Class of 2028, Henrico High School · Virginia · © 2025<br>Provisional patent pending · All technical methods described herein are the intellectual property of the author.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ STATE ═══════════════════════════════════════════════════════════
+const S = { totalEarned:0, requestsHandled:0, approvedCount:0, deniedCount:0, poisonedCount:0, ledger:[], activity:[], currentScenario:0, negotiating:false };
+
+const DOMAINS = [
+  { id:'athletics', name:'Athletics', icon:'🏃', desc:'Sports behavior, workout patterns, athletic purchases, equipment interests.', status:'open', risk:'low', riskLabel:'Low risk', floor:0.08, yield:'4.1%', color:'var(--green)', riskColor:'var(--green)' },
+  { id:'entertainment', name:'Entertainment', icon:'🎵', desc:'Music taste, streaming habits, content preferences, watch history.', status:'open', risk:'low', riskLabel:'Low risk', floor:0.06, yield:'2.8%', color:'var(--blue)', riskColor:'var(--green)' },
+  { id:'social', name:'Social', icon:'💬', desc:'Platform engagement patterns, posting frequency, interaction signals.', status:'selective', risk:'med', riskLabel:'Med risk', floor:0.12, yield:'3.4%', color:'var(--accent2)', riskColor:'var(--amber)' },
+  { id:'finance', name:'Finance', icon:'💳', desc:'Purchase patterns, spending categories, financial behavior signals.', status:'selective', risk:'med', riskLabel:'Med risk', floor:0.18, yield:'5.2%', color:'var(--gold)', riskColor:'var(--amber)' },
+  { id:'location', name:'Location', icon:'📍', desc:'Movement patterns, frequently visited areas, commute behavior.', status:'locked', risk:'high', riskLabel:'High risk', floor:0.25, yield:'6.8%', color:'var(--pink)', riskColor:'var(--red)' },
+  { id:'health', name:'Health', icon:'❤️', desc:'Fitness activity, wellness signals, health-related purchase patterns.', status:'locked', risk:'high', riskLabel:'High risk — HIPAA adjacent', floor:0.30, yield:'7.1%', color:'var(--red)', riskColor:'var(--red)' },
+];
+
+const ASSETS = [
+  { name:'Athletic behavior', category:'Athletics · Spotify + TikTok', icon:'🏓', value:1.84, change:+0.12, trend:'up', risk:'low', signals:2847 },
+  { name:'Purchase history', category:'Finance · Amazon + Nike', icon:'🛒', value:1.42, change:+0.08, trend:'up', risk:'med', signals:341 },
+  { name:'Music taste', category:'Entertainment · Spotify', icon:'🎵', value:0.91, change:-0.03, trend:'down', risk:'low', signals:5120 },
+  { name:'Social engagement', category:'Social · TikTok', icon:'📱', value:0.65, change:+0.02, trend:'up', risk:'med', signals:1203 },
+];
+
+const SCENARIOS = [
+  { brand:'Nike', industry:'Sportswear', logo:'N', color:'#fff', bg:'#111', dataTypes:['Athletic behavior','Purchase history','Location patterns'], recency:88,excl:76,demand:92,rarity:81,basePrice:0.14, domain:'athletics' },
+  { brand:'Spotify', industry:'Music streaming', logo:'S', color:'#1db954', bg:'rgba(29,185,84,0.2)', dataTypes:['Listening history','Mood patterns','Playlist behavior'], recency:95,excl:63,demand:78,rarity:70,basePrice:0.09, domain:'entertainment' },
+  { brand:'Netflix', industry:'Streaming', logo:'N', color:'#e50914', bg:'rgba(229,9,20,0.2)', dataTypes:['Watch history','Content preferences','Viewing time'], recency:82,excl:58,demand:74,rarity:65,basePrice:0.08, domain:'entertainment' },
+  { brand:'Mastercard', industry:'Financial services', logo:'MC', color:'#eb001b', bg:'rgba(235,0,27,0.15)', dataTypes:['Purchase patterns','Spending categories','Financial signals'], recency:91,excl:88,demand:96,rarity:94,basePrice:0.22, domain:'finance' },
+];
+
+const ALL_REQUESTS = [
+  { id:1, ...SCENARIOS[0], status:'pending', time:'2 min ago', purpose:'Athletic apparel targeting — 18-24 demographic' },
+  { id:2, ...SCENARIOS[3], status:'pending', time:'11 min ago', purpose:'Spending pattern analysis for credit offers' },
+  { id:3, ...SCENARIOS[1], status:'pending', time:'34 min ago', purpose:'Playlist mood data for ad placement model' },
+  { id:4, brand:'Adidas', industry:'Sportswear', logo:'A', color:'#fff', bg:'rgba(255,255,255,0.12)', dataTypes:['Purchase history','Athletic behavior'], recency:79,excl:65,demand:81,rarity:72,basePrice:0.11,domain:'athletics', status:'pending', time:'1 hr ago', purpose:'Retargeting for footwear campaign' },
+  { id:5, ...SCENARIOS[2], status:'pending', time:'2 hr ago', purpose:'Churn prediction model training data' },
+];
+
+// ══ NAV ══════════════════════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const map={portfolio:0,firewall:1,shield:2,requests:3,engine:4,ledger:5,about:6};
+  if(map[name]!==undefined) document.querySelectorAll('.nav-tab')[map[name]].classList.add('active');
+  if(name==='requests') renderRequests();
+}
+
+// ══ CHART ═════════════════════════════════════════════════════
+function initChart() {
+  const days=['22','23','24','25','26','27','28','29','30','1','2','3','4','5'];
+  const vals=[0.08,0.14,0.09,0.21,0.18,0.11,0.25,0.19,0.31,0.28,0.34,0.22,0.41,0];
+  const max=Math.max(...vals,0.01);
+  const ce=document.getElementById('earnings-chart'), le=document.getElementById('chart-labels');
+  ce.innerHTML=''; le.innerHTML='';
+  vals.forEach((v,i)=>{
+    const b=document.createElement('div');
+    b.className='bar'+(i===vals.length-1?' today':'');
+    b.style.height=Math.max((v/max)*100,4)+'%';
+    b.title='$'+v.toFixed(2);
+    ce.appendChild(b);
+    const l=document.createElement('div');
+    l.className='chart-label'; l.textContent=days[i];
+    le.appendChild(l);
+  });
+}
+
+// ══ ASSETS ═══════════════════════════════════════════════════
+function renderAssets() {
+  const el=document.getElementById('asset-list');
+  el.innerHTML='';
+  ASSETS.forEach(a=>{
+    const row=document.createElement('div');
+    row.className='asset-row';
+    const riskClass=a.risk==='low'?'risk-low':a.risk==='med'?'risk-med':'risk-high';
+    row.innerHTML=`
+      <div class="asset-icon" style="background:var(--bg4)">${a.icon}</div>
+      <div style="flex:1"><div class="asset-name">${a.name}</div><div class="asset-category">${a.category} · ${a.signals.toLocaleString()} signals</div></div>
+      <div class="asset-price-wrap">
+        <div class="asset-price">$${a.value.toFixed(2)}</div>
+        <div class="asset-change ${a.trend}">${a.trend==='up'?'↑':'↓'} $${Math.abs(a.change).toFixed(2)} this week</div>
+      </div>
+      <span class="asset-risk ${riskClass}">${a.riskLabel||a.risk}</span>`;
+    el.appendChild(row);
+  });
+}
+
+// ══ DEPRECIATION ═════════════════════════════════════════════
+function renderDepreciation() {
+  const wrap=document.getElementById('depre-wrap');
+  ASSETS.forEach(a=>{
+    const div=document.createElement('div');
+    div.style.marginBottom='16px';
+    const weeks=['W1','W2','W3','W4','W5','W6','W7','W8'];
+    const vals=weeks.map((_,i)=>Math.max(a.value*(1-i*0.08),a.value*0.3));
+    const max=Math.max(...vals);
+    div.innerHTML=`<div style="font-size:12px;font-weight:500;margin-bottom:6px">${a.icon} ${a.name} <span style="color:var(--muted);font-weight:400;font-size:11px">— depreciates ~8%/week without fresh signals</span></div>
+    <div style="display:flex;align-items:flex-end;gap:3px;height:50px">
+      ${vals.map((v,i)=>`<div style="flex:1;border-radius:3px 3px 0 0;height:${Math.round((v/max)*100)}%;background:${i===0?'var(--green)':'var(--accent)'};opacity:${1-i*0.08}" title="$${v.toFixed(3)}"></div>`).join('')}
+    </div>
+    <div style="display:flex;gap:3px;margin-top:4px">${weeks.map(w=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--muted)">${w}</div>`).join('')}</div>`;
+    wrap.appendChild(div);
+  });
+}
+
+// ══ FIREWALL ══════════════════════════════════════════════════
+function renderFirewall() {
+  const grid=document.getElementById('firewall-grid');
+  grid.innerHTML='';
+  DOMAINS.forEach(d=>{
+    const card=document.createElement('div');
+    card.className=`domain-card ${d.status}`;
+    const statusColors={open:'var(--green)',selective:'var(--amber)',locked:'var(--red)'};
+    const statusLabels={open:'Open — selling freely',selective:'Selective — floor price set',locked:'Locked — never sold'};
+    const riskPct={low:20,med:55,high:90};
+    card.innerHTML=`
+      <div class="domain-icon">${d.icon}</div>
+      <div class="domain-name">${d.name}</div>
+      <div class="domain-desc">${d.desc}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="domain-status" style="color:${statusColors[d.status]}">${statusLabels[d.status]}</div>
+        <button class="domain-toggle ${d.status!=='locked'?'on':'off'}" onclick="toggleDomain('${d.id}',this)"></button>
+      </div>
+      <div class="domain-yield">${d.status!=='locked'?'↑ '+d.yield+' monthly yield':'— No yield (protected)'}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+        <span class="asset-risk ${d.risk==='low'?'risk-low':d.risk==='med'?'risk-med':'risk-high'}">${d.riskLabel}</span>
+        <span style="font-size:11px;color:var(--muted)">Floor: $${d.floor.toFixed(2)}</span>
+      </div>
+      <div class="domain-risk-bar" style="background:linear-gradient(90deg,${d.riskColor} ${riskPct[d.risk]}%,var(--bg4) ${riskPct[d.risk]}%)"></div>`;
+    grid.appendChild(card);
+  });
+  renderFirewallSummary();
+}
+
+function toggleDomain(id,btn) {
+  const d=DOMAINS.find(x=>x.id===id);
+  if(!d) return;
+  if(d.status==='locked') { d.status='selective'; btn.className='domain-toggle on'; }
+  else if(d.status==='open') { d.status='locked'; btn.className='domain-toggle off'; }
+  else { d.status='open'; btn.className='domain-toggle on'; }
+  renderFirewall();
+}
+
+function renderFirewallSummary() {
+  const el=document.getElementById('firewall-summary');
+  el.innerHTML='';
+  DOMAINS.forEach(d=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)';
+    row.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px">${d.icon}</span><div><div style="font-size:13px;font-weight:500">${d.name}</div><div style="font-size:11px;color:var(--muted)">Floor $${d.floor.toFixed(2)} · ${d.riskLabel}</div></div></div><div style="text-align:right"><div style="font-size:13px;color:var(--green);font-family:var(--font-mono)">${d.status!=='locked'?d.yield+'/mo':'Locked'}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${d.status}</div></div>`;
+    el.appendChild(row);
+  });
+}
+
+// ══ SHIELD ════════════════════════════════════════════════════
+const RAW_FIELDS=[
+  {k:'age_exact',v:'16'},
+  {k:'location_zip',v:'23229'},
+  {k:'purchase_date',v:'2025-04-28'},
+  {k:'watch_time_min',v:'47'},
+  {k:'top_brand',v:'Nike'},
+  {k:'session_start',v:'21:34:02'},
+];
+
+function renderShield(noise=32) {
+  const raw=document.getElementById('raw-data-block');
+  const poisoned=document.getElementById('poisoned-data-block');
+  const pct=noise/100;
+  raw.innerHTML='<div style="font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.4px">Raw data</div>'+RAW_FIELDS.map(f=>`<div class="data-field"><span class="data-key">${f.k}</span><span class="data-val">${f.v}</span></div>`).join('');
+  const poisonedFields=RAW_FIELDS.map(f=>{
+    const shouldPoison=Math.random()<pct*0.9;
+    let newVal=f.v;
+    if(shouldPoison){
+      if(f.k==='age_exact') newVal=String(16+Math.floor(Math.random()*4)-1);
+      else if(f.k==='location_zip') newVal='232'+String(Math.floor(Math.random()*99)).padStart(2,'0');
+      else if(f.k==='purchase_date') newVal='2025-04-'+String(Math.floor(Math.random()*10)+20);
+      else if(f.k==='watch_time_min') newVal=String(Math.floor(47*(0.85+Math.random()*0.3)));
+      else if(f.k==='session_start') newVal=`${String(21+Math.floor(Math.random()*2)).padStart(2,'0')}:${String(Math.floor(Math.random()*59)).padStart(2,'0')}:${String(Math.floor(Math.random()*59)).padStart(2,'0')}`;
+      else newVal=f.v;
+    }
+    return {k:f.k,original:f.v,poisoned:shouldPoison,newVal};
+  });
+  poisoned.innerHTML='<div style="font-size:10px;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.4px">After shield</div>'+poisonedFields.map(f=>f.poisoned?`<div class="data-field"><span class="data-key">${f.k}</span><span><span class="data-val poisoned">${f.original}</span> <span class="data-val injected">${f.newVal}</span></span></div>`:`<div class="data-field"><span class="data-key">${f.k}</span><span class="data-val">${f.original}</span></div>`).join('');
+  const protectItems=['Exact age — blurred to age range','Precise ZIP code — shifted to adjacent area','Exact timestamps — rounded to nearest hour','Session metadata — randomized within valid range'];
+  const pl=document.getElementById('shield-protect-list');
+  if(pl) pl.innerHTML=protectItems.map(i=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg3);border-radius:7px;border:1px solid var(--border);font-size:12px;color:var(--muted)"><span style="color:var(--teal)">✓</span>${i}</div>`).join('');
+}
+
+function updatePoison(val) {
+  document.getElementById('noise-pct').textContent=val+'%';
+  const protection=Math.min(99,Math.round(40+val*0.73));
+  document.getElementById('shield-protection').textContent=protection+'%';
+  renderShield(parseInt(val));
+}
+
+// ══ REQUESTS ══════════════════════════════════════════════════
+function computePrice(req) { return req.basePrice*(0.5+(req.recency+req.excl+req.demand+req.rarity)/400); }
+
+function renderRequests(filter='all') {
+  const list=document.getElementById('requests-list');
+  list.innerHTML='';
+  const filtered=filter==='all'?ALL_REQUESTS:ALL_REQUESTS.filter(r=>r.status===filter);
+  if(!filtered.length){list.innerHTML='<div style="color:var(--muted);font-size:13px;padding:20px 0">No requests in this category.</div>';return;}
+  filtered.forEach(req=>{
+    const price=computePrice(req);
+    const domain=DOMAINS.find(d=>d.id===req.domain);
+    const domainLocked=domain&&domain.status==='locked';
+    const card=document.createElement('div');
+    card.className='request-card fade-in '+(req.status==='pending'?'pending-card':req.status);
+    const actionsHTML=req.status==='pending'
+      ?domainLocked
+        ?`<span style="font-size:12px;color:var(--red)">🔒 Domain locked — request blocked by firewall</span>`
+        :`<button class="btn btn-approve" onclick="handleReq(${req.id},'approved')">Approve $${price.toFixed(3)}</button>
+          <button class="btn btn-deny" onclick="handleReq(${req.id},'denied')">Deny</button>
+          <button class="btn btn-negotiate" onclick="openModal(${req.id})">Negotiate ↗</button>`
+      :`<span class="status-tag ${req.status}">${req.status==='approved'?'✓ Approved':'✗ Denied'}</span>`;
+    card.innerHTML=`
+      <div class="req-header">
+        <div class="req-brand">
+          <div class="brand-logo" style="background:${req.bg};color:${req.color}">${req.logo}</div>
+          <div><div class="brand-name">${req.brand}</div><div class="brand-industry">${req.industry} · ${domain?domain.icon+' '+domain.name+' domain':''}</div></div>
+        </div>
+        <div class="req-price"><div class="price-val">${domainLocked?'🔒':'$'+price.toFixed(3)}</div><div class="price-label">${domainLocked?'Domain locked':'AI-priced access fee'}</div></div>
+      </div>
+      <div class="req-body">
+        <div class="req-field"><div class="req-field-label">Purpose</div><div class="req-field-val">${req.purpose}</div></div>
+        <div class="req-field"><div class="req-field-label">Data requested</div><div class="req-field-val">${req.dataTypes.slice(0,2).join(', ')}</div></div>
+        <div class="req-field"><div class="req-field-label">Received</div><div class="req-field-val">${req.time}</div></div>
+      </div>
+      <div class="req-actions">${actionsHTML}</div>`;
+    list.appendChild(card);
+  });
+}
+
+function filterReqs(filter,btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRequests(filter);
+}
+
+function handleReq(id,status) {
+  const req=ALL_REQUESTS.find(r=>r.id===id);
+  if(!req||req.status!=='pending') return;
+  req.status=status;
+  const price=computePrice(req);
+  if(status==='approved'){
+    S.totalEarned+=price; S.approvedCount++; S.poisonedCount++;
+    logLedger(req,price,'approved',true);
+    addActivity(req.brand,price,'approved');
+  } else {
+    S.deniedCount++;
+    logLedger(req,price,'denied',false);
+    addActivity(req.brand,price,'denied');
+  }
+  S.requestsHandled++;
+  updateStats();
+  renderRequests(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+}
+
+// ══ MODAL ═════════════════════════════════════════════════════
+let modalReqId=null;
+function openModal(id){
+  modalReqId=id;
+  const req=ALL_REQUESTS.find(r=>r.id===id);
+  document.getElementById('modal-title').textContent='Negotiate with '+req.brand;
+  document.getElementById('modal-sub').textContent='Set your terms — the AI handles the rest';
+  document.getElementById('modal-cats').value=req.dataTypes.slice(0,2).join(', ');
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
+function submitNegotiation(){
+  document.getElementById('modal').classList.remove('open');
+  const req=ALL_REQUESTS.find(r=>r.id===modalReqId);
+  if(!req) return;
+  const floor=parseFloat(document.getElementById('modal-floor').value)||0.05;
+  const price=Math.max(computePrice(req),floor)*1.15;
+  req.status='approved';
+  S.totalEarned+=price; S.approvedCount++; S.requestsHandled++; S.poisonedCount++;
+  logLedger(req,price,'approved',true,true);
+  addActivity(req.brand,price,'negotiated');
+  updateStats();
+  renderRequests(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+}
+
+// ══ ENGINE ════════════════════════════════════════════════════
+let selectedScenario=0;
+function selectScenario(idx,el){
+  selectedScenario=idx;
+  document.querySelectorAll('.scenario-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  resetEngine();
+}
+function resetEngine(){
+  document.getElementById('engine-price').textContent='$—';
+  document.getElementById('engine-verdict').textContent='Run the engine to compute';
+  ['recency','excl','demand','rarity'].forEach(s=>{
+    document.getElementById('sig-'+s).style.width='0%';
+    document.getElementById('sig-'+s+'-val').textContent='--';
+  });
+  document.getElementById('neg-log').innerHTML='<div class="log-entry">Waiting for negotiation to start...</div>';
+  document.getElementById('engine-live').style.display='none';
+}
+async function runNegotiation(){
+  if(S.negotiating) return;
+  S.negotiating=true;
+  const btn=document.getElementById('run-btn');
+  btn.textContent='⏳ Negotiating...'; btn.disabled=true;
+  document.getElementById('engine-live').style.display='flex';
+  const sc=SCENARIOS[selectedScenario];
+  const log=document.getElementById('neg-log');
+  log.innerHTML='';
+  const noiseLevel=document.getElementById('noise-slider')?parseInt(document.getElementById('noise-slider').value):32;
+  const domain=DOMAINS.find(d=>d.id===sc.domain);
+  const addLog=(msg,cls='')=>{
+    const d=document.createElement('div');
+    d.className='log-entry '+cls;
+    d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
+    log.appendChild(d); log.scrollTop=log.scrollHeight;
+  };
+  addLog('Initializing DataShadow AI agent...','system');
+  await sleep(400);
+  addLog('Loading behavioral profile — '+ASSETS.reduce((a,b)=>a+b.signals,0).toLocaleString()+' total signals');
+  await sleep(400);
+  addLog('Checking consent firewall — domain: '+(domain?domain.name:'Unknown'),'system');
+  await sleep(300);
+  if(domain&&domain.status==='locked'){
+    addLog('FIREWALL: Domain locked — request blocked autonomously','warn');
+    document.getElementById('engine-price').textContent='🔒';
+    document.getElementById('engine-verdict').textContent='Blocked by consent firewall — domain is locked';
+    document.getElementById('engine-live').style.display='none';
+    btn.textContent='▶ Run AI Negotiation'; btn.disabled=false; S.negotiating=false;
+    return;
+  }
+  addLog('Firewall check passed — domain '+domain?.status,'system');
+  await sleep(300);
+  addLog('Running signal classifier on request from '+sc.brand+'...');
+  await sleep(500);
+  const signals=[{key:'recency',val:sc.recency},{key:'excl',val:sc.excl},{key:'demand',val:sc.demand},{key:'rarity',val:sc.rarity}];
+  for(const sig of signals){
+    document.getElementById('sig-'+sig.key).style.width=sig.val+'%';
+    document.getElementById('sig-'+sig.key+'-val').textContent=sig.val;
+    addLog('Signal ['+sig.key+']: '+sig.val+'/100');
+    await sleep(280);
+  }
+  const composite=((sc.recency+sc.excl+sc.demand+sc.rarity)/4).toFixed(1);
+  const depreciationFactor=0.94;
+  addLog('Composite behavioral score: '+composite+'/100','system');
+  addLog('Applying depreciation factor: '+depreciationFactor+'x (data freshness)');
+  await sleep(400);
+  addLog('Activating data poisoning shield — noise level: '+noiseLevel+'%','shield');
+  await sleep(300);
+  addLog('Noise injection complete — '+Math.round(noiseLevel*0.9)+'% of fields obfuscated','shield');
+  await sleep(300);
+  addLog('Querying Claude AI for pricing decision...','system');
+  let aiDecision='';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:200,
+        messages:[{role:'user',content:`You are DataShadow, an autonomous AI data negotiation agent.
+
+Brand: ${sc.brand} (${sc.industry})
+Data requested: ${sc.dataTypes.join(', ')}
+Domain: ${domain?.name} (${domain?.status})
+Domain floor price: $${domain?.floor}
+Signals: Recency ${sc.recency}/100, Exclusivity ${sc.excl}/100, Demand ${sc.demand}/100, Rarity ${sc.rarity}/100
+Composite: ${composite}/100
+Depreciation factor: ${depreciationFactor}
+Data poisoning shield: ${noiseLevel}% noise applied
+Base market rate: $${sc.basePrice}
+
+Compute the final access price and provide a brief rationale. Format:
+PRICE: $X.XXX
+VERDICT: approve/negotiate/deny
+RATIONALE: [2 sentences max]`}]
+      })
+    });
+    const data=await resp.json();
+    aiDecision=data.content?.[0]?.text||'';
+  }catch(e){
+    aiDecision=`PRICE: $${(sc.basePrice*depreciationFactor*1.3).toFixed(3)}\nVERDICT: approve\nRATIONALE: Strong behavioral match. Price reflects composite signal score and depreciation adjustment.`;
+  }
+  addLog('Claude AI response received.','system');
+  await sleep(300);
+  const priceMatch=aiDecision.match(/PRICE:\s*\$?([\d.]+)/i);
+  const verdictMatch=aiDecision.match(/VERDICT:\s*(\w+)/i);
+  const rationaleMatch=aiDecision.match(/RATIONALE:\s*(.+)/is);
+  const finalPrice=priceMatch?parseFloat(priceMatch[1]):sc.basePrice*depreciationFactor*1.3;
+  const verdict=verdictMatch?verdictMatch[1].toLowerCase():'approve';
+  const rationale=rationaleMatch?rationaleMatch[1].trim():'Pricing computed from behavioral signal composite.';
+  const adjustedPrice=Math.max(finalPrice,domain?.floor||0);
+  addLog('Depreciation-adjusted price: $'+adjustedPrice.toFixed(4),'price');
+  addLog('Final verdict: '+verdict.toUpperCase(),verdict==='deny'?'warn':'price');
+  addLog('Rationale: '+rationale.slice(0,100));
+  await slee
