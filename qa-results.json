@@ -1,0 +1,97 @@
+[
+  {
+    "test": "Initial overview renders",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Personal nav has full feature set",
+    "ok": true,
+    "detail": "24"
+  },
+  {
+    "test": "Demo portfolio is calculated",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Asset provenance rows render",
+    "ok": true,
+    "detail": "4"
+  },
+  {
+    "test": "Privacy slider changes protected output",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Privacy shield blocks exact identifiers",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Locked Location domain is denied",
+    "ok": true,
+    "detail": "deny"
+  },
+  {
+    "test": "Protected exchange creates transaction",
+    "ok": true,
+    "detail": "3->4"
+  },
+  {
+    "test": "Protected exchange creates receipt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "SHA-256 ledger verifies",
+    "ok": true,
+    "detail": "{\"ok\": true, \"count\": 4}"
+  },
+  {
+    "test": "ShadowQuery executes zero-copy transaction",
+    "ok": true,
+    "detail": "4->5"
+  },
+  {
+    "test": "ShadowQuery releases no raw rows",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Consent change persists",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Policy version created before change",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Contextual assistant answers from state",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Provenance graph has clickable nodes",
+    "ok": true,
+    "detail": "26"
+  },
+  {
+    "test": "Buyer Lab switches navigation",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Mobile menu control visible",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "No runtime JS errors",
+    "ok": true,
+    "detail": ""
+  }
+]

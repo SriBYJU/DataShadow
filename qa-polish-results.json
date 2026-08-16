@@ -1,0 +1,92 @@
+[
+  {
+    "test": "SHA-256 implementation matches known vector",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Homepage mission explains goal",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Homepage explains current usability",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Light mode toggle applies",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Theme saves to profile state",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Guide Center opens from top/right controls",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Guide has contextual current-page help",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Guide directory covers major tools",
+    "ok": true,
+    "detail": "26"
+  },
+  {
+    "test": "Guide search filters tools",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "DataShadow Passport page renders",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Passport creates SHA-256 fingerprint",
+    "ok": true,
+    "detail": "1b9c55e1654ccf45"
+  },
+  {
+    "test": "Passport excludes raw behavioral rows",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Passport compatibility enforces locked domains",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "Patent navigator has five subsystem cards",
+    "ok": true,
+    "detail": "5"
+  },
+  {
+    "test": "Patent navigator includes combined claim 15",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "About includes contact email",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "About includes richer project motivation",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "test": "No runtime errors in polish features",
+    "ok": true,
+    "detail": ""
+  }
+]
