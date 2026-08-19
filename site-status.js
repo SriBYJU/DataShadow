@@ -8,6 +8,8 @@
 
   const creatorMilestone=`<div class="creator-patent-milestone"><img src="datashadow-icon.svg" alt=""><div><small>INVENTOR MILESTONE</small><b>U.S. provisional patent application filed at age 16</b><span>Sole inventor · Filed August 19, 2026 · Five integrated DataShadow subsystems</span></div></div>`;
 
+  const overviewShowcase=`<section class="overview-patent-showcase"><div class="overview-patent-copy"><div class="eyebrow">INVENTOR MILESTONE</div><h2>Filed at age 16 as sole inventor.</h2><p>On August 19, 2026, Shriyan Avadhanula filed a U.S. provisional patent application for DataShadow’s integrated personal-data asset management architecture. The filing describes the same five core subsystems demonstrated throughout this working prototype.</p><div class="overview-patent-facts"><span><b>Age at filing</b>16</span><span><b>Inventorship</b>Sole inventor</span><span><b>Filing</b>U.S. provisional patent</span><span><b>Date</b>Aug 19, 2026</span></div><button class="btn small" data-action="nav" data-page="patent">Explore the provisional patent map →</button></div><a class="patent-profile-shot" href="patent-linkedin.png" target="_blank" rel="noopener" aria-label="Open patent profile screenshot"><img src="patent-linkedin.png" alt="Patent profile screenshot showing the DataShadow provisional patent filing"><span>Patent profile listing · filed Aug 19, 2026</span></a></section>`;
+
   const replacements=[
     [/five patented subsystems/gi,'five provisional patent subsystems'],
     [/five patent-pending subsystems/gi,'five provisional patent subsystems'],
@@ -51,6 +53,10 @@
         const secondary=hero.querySelector('.secondary-kicker');
         const chip=`<div class="site-patent-chip">U.S. PROVISIONAL PATENT · FILED AUG 19, 2026</div>`;
         if(secondary)secondary.insertAdjacentHTML('afterend',chip); else hero.insertAdjacentHTML('afterbegin',chip);
+      }
+      if(!main.querySelector('.overview-patent-showcase')){
+        const heroGrid=main.querySelector('.hero-grid');
+        if(heroGrid)heroGrid.insertAdjacentHTML('afterend',overviewShowcase);
       }
     }
 
