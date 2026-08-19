@@ -1,0 +1,105 @@
+/* DataShadow OG Purple Boost
+   Adds ~10% more original DataShadow purple while keeping logo blue primary
+   and leaving green reserved for proof/success/milestones. */
+:root{
+  --og-purple-soft:rgba(169,152,255,.18);
+  --og-purple-glow:rgba(169,152,255,.27);
+}
+
+/* Global ambience: give purple more breathing room without overtaking blue. */
+body:before{
+  background:
+    radial-gradient(900px 520px at 78% -12%,rgba(59,130,246,.13),transparent 61%),
+    radial-gradient(820px 590px at -8% 74%,rgba(169,152,255,.175),transparent 68%),
+    radial-gradient(520px 390px at 102% 42%,rgba(124,104,255,.07),transparent 72%),
+    radial-gradient(520px 380px at 96% 94%,rgba(101,245,181,.035),transparent 70%)!important;
+}
+.sidebar{
+  background:linear-gradient(180deg,rgba(5,9,20,.96) 0%,rgba(7,10,24,.95) 66%,rgba(16,13,37,.92) 100%)!important;
+}
+.topbar{background:linear-gradient(90deg,rgba(5,9,20,.9),rgba(11,10,28,.88))!important}
+.nav-section{color:color-mix(in srgb,#667b91 72%,var(--og-purple) 28%)!important}
+.nav-item.active{
+  background:linear-gradient(90deg,rgba(59,130,246,.14) 0%,rgba(124,104,255,.14) 72%,rgba(169,152,255,.10) 100%)!important;
+  box-shadow:inset 2px 0 0 var(--brand-cyan),inset 0 -1px 0 rgba(169,152,255,.19)!important;
+}
+.mode-btn.active{background:linear-gradient(135deg,rgba(59,130,246,.065),rgba(124,104,255,.12))!important}
+
+/* Main surfaces: blue begins the story, OG purple increasingly finishes it. */
+.hero-panel{background:linear-gradient(135deg,#091526 0%,#08111f 44%,#13122e 76%,#171233 100%)!important}
+.hero-panel:after{background:radial-gradient(circle,rgba(169,152,255,.27),transparent 68%)!important}
+.hero-kicker{background:linear-gradient(90deg,rgba(56,189,248,.07),rgba(169,152,255,.085))!important}
+.signal-radar{background:linear-gradient(145deg,#07111f 0%,#091326 58%,#121027 100%)!important}
+.signal-radar:after{background:radial-gradient(circle,rgba(169,152,255,.20),transparent 70%)!important}
+.mission-band{background:linear-gradient(120deg,#091525 0%,#08111f 43%,#14112f 100%)!important}
+.passport-promo{background:linear-gradient(105deg,rgba(59,130,246,.065),rgba(169,152,255,.15),rgba(45,212,191,.02))!important}
+.passport-card{background:linear-gradient(145deg,#0a1728 0%,#08111f 45%,#1a1436 100%)!important}
+.passport-card:before{background:radial-gradient(circle,rgba(169,152,255,.30),transparent 66%)!important}
+.patent-hero{background:linear-gradient(135deg,#091526 0%,#08111f 45%,#1a1435 100%)!important}
+.combined-claim{background:linear-gradient(110deg,var(--panel),rgba(59,130,246,.045),rgba(169,152,255,.13))!important}
+
+/* Purple becomes a clearer secondary accent on normal product surfaces. */
+.metric:nth-child(2),.metric:nth-child(4){
+  background:linear-gradient(145deg,var(--panel) 0%,color-mix(in srgb,var(--panel) 87%,var(--og-purple) 13%) 100%)!important;
+}
+.domain-card:nth-child(2n){background:linear-gradient(145deg,var(--panel),color-mix(in srgb,var(--panel) 90%,var(--og-purple) 10%))!important}
+.panel:nth-of-type(3n){
+  border-color:color-mix(in srgb,var(--line) 72%,var(--og-purple) 28%)!important;
+  box-shadow:inset 0 1px 0 rgba(169,152,255,.055)!important;
+}
+.arch-node:nth-child(2n),.source-card:nth-child(2n){background:linear-gradient(145deg,var(--panel2),color-mix(in srgb,var(--panel2) 92%,var(--og-purple) 8%))!important}
+.use-step>span{background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(169,152,255,.28))!important}
+.guide-current{background:linear-gradient(145deg,rgba(59,130,246,.055),rgba(169,152,255,.11))!important}
+.guide-entry.active{background:linear-gradient(90deg,rgba(59,130,246,.035),rgba(169,152,255,.095))!important}
+.guide-entry:hover{border-color:color-mix(in srgb,var(--line2) 60%,var(--og-purple) 40%)!important}
+.top-guide-btn:hover,.icon-btn:hover,.command-pill:hover{box-shadow:0 0 0 1px rgba(169,152,255,.04),0 8px 24px rgba(169,152,255,.055)!important}
+.btn:not(.primary):not(.danger):hover{background:linear-gradient(135deg,var(--panel2),rgba(169,152,255,.07))!important}
+
+/* Intelligence / patent-secondary accents can visibly own the heritage purple. */
+.violet,.patent-range,.guide-drawer-head small,.guide-entry>span{color:#b7aaff!important}
+.source-tag.model{background:rgba(169,152,255,.055)!important;border-color:rgba(169,152,255,.48)!important}
+.metric-grid .metric:nth-child(3),.violet-accent,.patent-card:nth-child(2),.patent-card:nth-child(5){
+  border-color:color-mix(in srgb,var(--og-purple) 52%,var(--line))!important;
+  box-shadow:inset 0 1px 0 rgba(169,152,255,.09),0 0 28px rgba(169,152,255,.035)!important;
+}
+.orbit-node.n3{box-shadow:0 0 19px rgba(169,152,255,.58)!important}
+.patent-flow span:nth-of-type(even){background:rgba(169,152,255,.055)!important;border-color:rgba(169,152,255,.42)!important}
+.assistant-orb{
+  background:radial-gradient(circle at 35% 30%,#edf9ff,var(--brand-cyan) 18%,var(--brand-blue) 39%,var(--og-purple) 70%,#2a234f 100%)!important;
+  box-shadow:0 0 24px rgba(92,144,255,.20),0 0 46px rgba(169,152,255,.20)!important;
+}
+
+/* Green remains exactly a tertiary high-value language. */
+.notification-dot,.pulse-dot,.status.open:before,.status.ok:before,.status.approved:before{background:var(--pop-green)!important}
+.source-tag.real{color:var(--pop-green)!important}
+.site-patent-chip{background:linear-gradient(135deg,var(--pop-green),#4de9a6)!important}
+.overview-patent-showcase{
+  background:linear-gradient(140deg,#091725 0%,#0a1324 42%,#1a1434 76%,#09231d 100%)!important;
+}
+.overview-patent-showcase:after{background:linear-gradient(90deg,var(--brand-blue) 0%,var(--og-purple) 66%,var(--pop-green) 100%)!important}
+.site-patent-banner,.filing-proof,.creator-patent-milestone,.technology-patent-note{
+  background:linear-gradient(135deg,rgba(59,130,246,.035),rgba(169,152,255,.105),rgba(101,245,181,.065))!important;
+}
+
+/* Light mode: richer lavender/blue identity without becoming washed out. */
+html[data-theme="light"] body:before{
+  background:
+    radial-gradient(760px 450px at 82% -10%,rgba(59,130,246,.07),transparent 62%),
+    radial-gradient(760px 570px at -7% 77%,rgba(124,104,255,.135),transparent 68%),
+    radial-gradient(460px 360px at 101% 40%,rgba(169,152,255,.055),transparent 70%),
+    radial-gradient(500px 380px at 96% 94%,rgba(52,217,154,.03),transparent 70%)!important;
+}
+html[data-theme="light"] .sidebar{background:linear-gradient(180deg,#fbfcff 0%,#f8f8fd 64%,#f5f2ff 100%)!important}
+html[data-theme="light"] .topbar{background:linear-gradient(90deg,rgba(250,251,255,.94),rgba(247,245,255,.93))!important}
+html[data-theme="light"] .nav-item.active{background:linear-gradient(90deg,rgba(59,130,246,.09),rgba(124,104,255,.13))!important}
+html[data-theme="light"] .mode-btn.active{background:linear-gradient(135deg,#eef5ff,#efebff)!important}
+html[data-theme="light"] .hero-panel{background:linear-gradient(135deg,#fff 0%,#f7faff 43%,#f1ecff 100%)!important}
+html[data-theme="light"] .hero-panel:after{background:radial-gradient(circle,rgba(124,104,255,.17),transparent 68%)!important}
+html[data-theme="light"] .signal-radar{background:linear-gradient(145deg,#fff,#f8f5ff)!important}
+html[data-theme="light"] .mission-band{background:linear-gradient(120deg,#fff,#f7faff 45%,#f1ecff)!important}
+html[data-theme="light"] .passport-card{background:linear-gradient(145deg,#fff,#f5f8ff 45%,#f1ecff)!important}
+html[data-theme="light"] .patent-hero{background:linear-gradient(135deg,#fff,#f6f9ff 45%,#f1ecff)!important}
+html[data-theme="light"] .metric:nth-child(2),html[data-theme="light"] .metric:nth-child(4),html[data-theme="light"] .domain-card:nth-child(2n){background:linear-gradient(145deg,#fff,#f6f2ff)!important}
+html[data-theme="light"] .panel:nth-of-type(3n){border-color:#d8cff5!important}
+html[data-theme="light"] .guide-current{background:linear-gradient(145deg,#f5f9ff,#f2edff)!important}
+html[data-theme="light"] .overview-patent-showcase{background:linear-gradient(140deg,#fff,#f7fbff 42%,#f2edff 78%,#f3fff9)!important}
