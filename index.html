@@ -3,26 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="DataShadow — Functional Prototype · Public Beta. A local-first personal data asset management system for consent, privacy-preserving exchange, and transparent valuation." />
+  <meta name="description" content="DataShadow — Patent Pending · Functional Prototype · Public Beta. U.S. Provisional Patent Application filed August 19, 2026. A local-first personal data asset management system for consent, privacy-preserving exchange, and transparent valuation." />
   <meta name="theme-color" content="#07100e" id="themeMeta" />
-  <title>DataShadow — Functional Prototype · Public Beta</title>
+  <title>DataShadow — Patent Pending · Functional Prototype</title>
+  <link rel="icon" type="image/svg+xml" href="datashadow-icon.svg" />
+  <link rel="apple-touch-icon" href="datashadow-icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="branding.css" />
 </head>
 <body>
   <div id="boot" class="boot-screen">
-    <div class="boot-mark">DS</div>
+    <div class="boot-mark brand-logo-mark"><img src="datashadow-icon.svg" alt="DataShadow"></div>
     <div class="boot-copy"><strong>DataShadow</strong><span>Initializing local privacy engine…</span></div>
   </div>
 
   <div class="app-shell" id="appShell">
     <aside class="sidebar" id="sidebar">
       <div class="brand" data-action="nav" data-page="overview">
-        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div class="brand-mark brand-logo-mark"><img src="datashadow-icon.svg" alt="DataShadow logo"></div>
         <div><strong>DataShadow</strong><small>Personal Data OS</small></div>
       </div>
+      <div class="patent-sidebar-badge"><b>Patent Pending</b><small>U.S. Provisional · Filed Aug 19, 2026</small></div>
 
       <div class="mode-switch" role="group" aria-label="Application mode">
         <button class="mode-btn active" data-mode="personal">Personal</button>
@@ -88,5 +92,6 @@
 
   <script src="data/public-benchmarks.js"></script>
   <script src="app.js"></script>
+  <script src="site-status.js"></script>
 </body>
 </html>
